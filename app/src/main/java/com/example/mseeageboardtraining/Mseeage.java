@@ -1,23 +1,32 @@
 package com.example.mseeageboardtraining;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Main2Activity extends AppCompatActivity {
+public class Mseeage extends AppCompatActivity {
+
+    public String author;
+    public String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        //获取ip和用户名
+        getApiIp(getBaseContext());
+        getAuthor(getBaseContext());
 
         Button button = (Button) findViewById(R.id.submit);
         button.setOnClickListener(new View.OnClickListener() {
@@ -37,15 +46,13 @@ public class Main2Activity extends AppCompatActivity {
 
                 EditText sm_detail = (EditText)findViewById(R.id.sm_detail);
                 EditText sm_title = (EditText)findViewById(R.id.sm_title);
-                EditText sm_author = (EditText)findViewById(R.id.sm_author);
 
                 String detail = sm_detail.getText().toString();
                 String title = sm_title.getText().toString();
-                String author = sm_author.getText().toString();
 
                 OkHttpClient Client  = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("http://172.17.112.45:5000/add_msg?title="+title+"&author="+author+"&detail="+detail)//请求的url
+                        .url("http://"+ip+":5000/add_msg?title="+title+"&author="+author+"&detail="+detail)//请求的url
                         .build();
                 System.out.println();
                 //创建/Call
@@ -56,7 +63,7 @@ public class Main2Activity extends AppCompatActivity {
                     String result = response.body().string();
                     System.out.println(result);
                         System.out.println(result);
-                        Intent intent = new Intent(Main2Activity.this,MainActivity.class);
+                        Intent intent = new Intent(Mseeage.this,MainActivity.class);
                         startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -65,5 +72,17 @@ public class Main2Activity extends AppCompatActivity {
             }
         }).start();
    }
+    //得到ip地址
+    private void getApiIp(Context context){
+        SharedPreferences login = context.getSharedPreferences("SetAttribute", Context.MODE_PRIVATE);
+        ip = login.getString("api_ip", "192.168.43.88");
+    }
+
+    //得到用户名
+    private void getAuthor(Context context){
+        SharedPreferences login = context.getSharedPreferences("SetAuthor", Context.MODE_PRIVATE);
+        author = login.getString("author", null);
+    }
+
 }
 

@@ -1,10 +1,11 @@
 package com.example.mseeageboardtraining;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,19 +16,14 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -39,10 +35,13 @@ public class MainActivity extends AppCompatActivity  {
     public JSONObject object;
     public ListView lv;
     public ArrayList<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+    public String api_ip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //获取ip
+        getApiIp(getBaseContext());
         //调用获取数据函数
         init();
 
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity  {
         ly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(MainActivity.this,Main2Activity.class);
+                Intent intent2 = new Intent(MainActivity.this, Mseeage.class);
                 startActivity(intent2);
             }
         });
@@ -62,6 +61,17 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 refresh();
+            }
+        });
+
+        //注销按钮点击事件
+        Button zx= (Button) findViewById(R.id.zx);
+        zx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAuthor(getBaseContext());
+                Intent intent3= new Intent(MainActivity.this,Login.class);
+                startActivity(intent3);
             }
         });
     }
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity  {
                 OkHttpClient okHttpClient=new OkHttpClient();
                 //服务器返回的地址
                 Request request=new Request.Builder()
-                        .url("http://172.17.112.45:5000/get_all_msg").build();
+                        .url("http://"+api_ip+":5000/get_all_msg").build();
                 try {
                     Response response=okHttpClient.newCall(request).execute();
                     //获取到数据
@@ -238,6 +248,21 @@ public class MainActivity extends AppCompatActivity  {
         TextView textView;
         TextView shijian;
         TextView title;
+    }
+
+    //获取ip地址
+    private void getApiIp(Context context){
+        SharedPreferences login = context.getSharedPreferences("SetAttribute", Context.MODE_PRIVATE);
+        api_ip = login.getString("api_ip", "192.168.43.88");
+    }
+
+    //设置注销
+    private void setAuthor(Context context){
+        SharedPreferences login = context.getSharedPreferences("SetAuthor", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = login.edit();
+        edit.putString("author",null);
+        edit.apply();
+
     }
 
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:background="#ddf3f5"
+        android:background="#a6dcef"
         android:text="留言板"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -40,12 +40,12 @@
             android:layout_height="wrap_content"
             android:text="刷新"/>
         <Button
-            android:id="@+id/other"
+            android:id="@+id/zx"
             android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="其他"/>
+            android:text="注销"/>
     </LinearLayout>
 
 
