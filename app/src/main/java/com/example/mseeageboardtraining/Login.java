@@ -6,14 +6,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -26,6 +36,7 @@ public class Login extends AppCompatActivity {
     public EditText username;
     public EditText password;
     public String author;
+    public String msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setApiIp(getBaseContext());
+                getApiIp(getBaseContext());
             }
         });
 
@@ -71,8 +83,12 @@ public class Login extends AppCompatActivity {
                 try {
                     response = Client.newCall(request).execute();
                     String result = response.body().string();
+
+                    JSONObject json = new JSONObject(result);
+                    msg = json.get("msg").toString();
+
                     System.out.println(result);
-                    if (result.equals("{\"login\": false, \"error_code\": 0, \"msg\": \"success\"}")){
+                    if (msg.equals("success")){
                         Intent intent = new Intent(Login.this,MainActivity.class);
                         startActivity(intent);
                         setAuthor(getBaseContext());
@@ -85,9 +101,13 @@ public class Login extends AppCompatActivity {
                         });
 
                     }else{
-                        Toast.makeText(Login.this,"账号或密码错误",Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException e) {
+                       runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               Toast.makeText(Login.this,"账号或密码错误",Toast.LENGTH_SHORT).show();
+                           }
+                       });                    }
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -98,7 +118,7 @@ public class Login extends AppCompatActivity {
 
     private void getApiIp(Context context){
         SharedPreferences login = context.getSharedPreferences("SetAttribute", Context.MODE_PRIVATE);
-        ip = login.getString("api_ip", "192.168.43.88");
+        ip = login.getString("api_ip", "47.100.56.237");
     }
 
     //得到用户名

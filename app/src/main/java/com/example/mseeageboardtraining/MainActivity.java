@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity  {
     //获取ip地址
     private void getApiIp(Context context){
         SharedPreferences login = context.getSharedPreferences("SetAttribute", Context.MODE_PRIVATE);
-        api_ip = login.getString("api_ip", "192.168.43.88");
+        api_ip = login.getString("api_ip", "47.100.56.237");
     }
 
     //设置注销

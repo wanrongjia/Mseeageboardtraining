@@ -62,6 +62,7 @@ public class Mseeage extends AppCompatActivity {
                     //加入队列 异步操作
                     String result = response.body().string();
                     System.out.println(result);
+
                         System.out.println(result);
                         Intent intent = new Intent(Mseeage.this,MainActivity.class);
                         startActivity(intent);
@@ -75,7 +76,7 @@ public class Mseeage extends AppCompatActivity {
     //得到ip地址
     private void getApiIp(Context context){
         SharedPreferences login = context.getSharedPreferences("SetAttribute", Context.MODE_PRIVATE);
-        ip = login.getString("api_ip", "192.168.43.88");
+        ip = login.getString("api_ip", "47.100.56.237");
     }
 
     //得到用户名

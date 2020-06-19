@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".">
+    tools:context=".Login">
 
     <TextView
-        android:background="#f5aaaa"
+        android:background="#abc2e8"
         android:textSize="40dp"
         android:gravity="center_vertical|center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:textColor="#ffffff"
         android:text="留言板"/>
+
+
+
+
 
     <LinearLayout
         android:gravity="center_vertical"
@@ -22,72 +29,76 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="用户名:">
+                float:fletPadding="10dp">
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:maxLength="18"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/edit"
+                    android:hint="请输入用户名">
 
-            </TextView>
-
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="365dp"
-                android:layout_height="wrap_content"
-                android:hint="请输入用户名">
-
-            </EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
+                </EditText>
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="密    码:">
-
-            </TextView>
-
+                float:fletPadding="10dp">
             <EditText
                 android:id="@+id/password"
-                android:layout_width="365dp"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:background="@drawable/edit"
                 android:hint="请输入密码">
-
             </EditText>
-
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
         </LinearLayout>
 
         <Button
+            android:layout_margin="20dp"
             android:id="@+id/logbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/values"
+            android:textColor="#ffffff"
             android:text="登录">
 
         </Button>
 
         <LinearLayout
-            android:layout_gravity="bottom"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <EditText
+                android:layout_weight="1"
                 android:id="@+id/api_ip"
-                android:layout_width="318dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="请输入ip地址"></EditText>
 
             <Button
+                android:paddingRight="3dp"
+                android:paddingLeft="3dp"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
                 android:id="@+id/Editip"
+                android:textColor="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/values"
                 android:text="设置">
             </Button>
         </LinearLayout>
